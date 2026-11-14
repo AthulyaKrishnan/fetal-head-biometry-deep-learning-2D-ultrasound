@@ -5,7 +5,7 @@ I measure the fetal head in axial ultrasound images in two different ways and co
 - **Part A, landmark detection.** An ImageNet-pretrained HRNet-W32 predicts the four end-points of the occipito-frontal (OFD) and biparietal (BPD) diameters as Gaussian heatmaps. A direct coordinate-regression model with the same backbone is the controlled baseline.
 - **Part B, segmentation.** A U-Net segments the skull, an ellipse is fitted to the predicted mask, and the end-points and head circumference are read from the ellipse axes. Self-/cross-attention and a Hausdorff-type boundary loss were tested as extensions.
 
-This README is the full write-up. The code that produced every number is in [`part_a_landmark_detection/`](part_a_landmark_detection/) and [`part_b_segmentation/`](part_b_segmentation/), and the original PDF reports go in [`docs/reports/`](docs/reports/).
+This README is the full write-up. The code that produced every number is in [`part_a_landmark_detection/`](part_a_landmark_detection/) and [`part_b_segmentation/`](part_b_segmentation/), and the original PDF reports go in [`reports/`](reports/).
 
 **Stack:** Python, PyTorch, timm, OpenCV, albumentations, pandas, SciPy, scikit-learn, matplotlib
 
@@ -18,8 +18,8 @@ This README is the full write-up. The code that produced every number is in [`pa
 | Main experiment | Heatmap beats coordinate regression on landmark placement (median 1.65 vs 2.48 mm), but the coordinate model agrees better on OFD, BPD and HC | Attention and HD loss gave no significant gain after correction, so the simpler baseline U-Net was kept |
 
 <p align="center">
-  <img src="docs/images/part_a/cumulative_success_curve.png" width="46%" alt="Part A cumulative success curve">
-  <img src="docs/images/part_b/best_and_worst_fits.png" width="52%" alt="Part B best and worst segmentation fits">
+  <img src="images/part_a/cumulative_success_curve.png" width="46%" alt="Part A cumulative success curve">
+  <img src="images/part_b/best_and_worst_fits.png" width="52%" alt="Part B best and worst segmentation fits">
 </p>
 <p align="center"><em>Left: share of landmarks within a given error, heatmap vs coordinate regression (Part A). Right: predicted mask, fitted ellipse and biometry points on the best and worst test images (Part B; green = ground truth, red = prediction, yellow = OFD points, blue = BPD points).</em></p>
 
@@ -96,10 +96,10 @@ Each annotation was checked for plausibility before training. The two diameters 
 
 I also recognise the limits of this rule. A large share of rows was removed, and most removals came from the perpendicularity and midpoint checks. That may mean that many annotations are wrong, or it may mean that the annotation convention differs from the one my rule assumes, for example in how the biparietal diameter is drawn. Telling these apart needs the annotator, which is listed under future work.
 
-<p align="center"><img src="docs/images/part_a/removed_annotations.png" width="80%" alt="Examples of removed annotations"></p>
+<p align="center"><img src="images/part_a/removed_annotations.png" width="80%" alt="Examples of removed annotations"></p>
 <p align="center"><em>Examples of removed annotations, with the landmarks drawn on the image.</em></p>
 
-<p align="center"><img src="docs/images/part_a/kept_annotations.png" width="80%" alt="Examples of kept annotations"></p>
+<p align="center"><img src="images/part_a/kept_annotations.png" width="80%" alt="Examples of kept annotations"></p>
 <p align="center"><em>Examples of kept annotations after preparation, confirming that the landmarks sit on the head.</em></p>
 
 ### A3.2 Patient-grouped split
@@ -203,13 +203,13 @@ Run `hrnet_w32_base_run1`, checkpoint from epoch 40. Millimetre values use 0.1 m
 
 ### A6.3 Figures
 
-<p align="center"><img src="docs/images/part_a/landmark_error_distribution.png" width="100%" alt="Distribution of per-image mean landmark error"></p>
+<p align="center"><img src="images/part_a/landmark_error_distribution.png" width="100%" alt="Distribution of per-image mean landmark error"></p>
 <p align="center"><em>Distribution of per-image mean landmark error for both models. A long right tail with a mean well above the median means a few images fail badly while most are accurate.</em></p>
 
-<p align="center"><img src="docs/images/part_a/cumulative_success_curve.png" width="75%" alt="Cumulative success curve"></p>
+<p align="center"><img src="images/part_a/cumulative_success_curve.png" width="75%" alt="Cumulative success curve"></p>
 <p align="center"><em>Cumulative success curve: the fraction of landmarks within each error threshold (dashed line = 2 mm, the clinical reference). Heatmap: SDR at 2 mm 70.7 %, SDR-AUC 0.777. Coordinate: 46.8 %, 0.698.</em></p>
 
-<p align="center"><img src="docs/images/part_a/bland_altman_agreement.png" width="75%" alt="Bland-Altman agreement for OFD and BPD"></p>
+<p align="center"><img src="images/part_a/bland_altman_agreement.png" width="75%" alt="Bland-Altman agreement for OFD and BPD"></p>
 <p align="center"><em>Bland-Altman agreement for OFD and BPD (each dot is one image; solid line = bias, dashed lines = 95 % limits of agreement). The heatmap model's wide limits come from a few isolated large errors; the coordinate model's limits are narrower.</em></p>
 
 ## A7. Heatmap vs coordinate regression
@@ -287,7 +287,7 @@ The ground truth is a one-pixel ellipse outline rather than a filled region, and
 | Small gap repaired (about 11 px or less) | 0 | Not needed |
 | Open outline / empty | 2 | Excluded (listed in `prepare_report.json`) |
 
-<p align="center"><img src="docs/images/part_b/ground_truth_mask_overlay.png" width="55%" alt="Ground-truth ellipse overlaid on an example image"></p>
+<p align="center"><img src="images/part_b/ground_truth_mask_overlay.png" width="55%" alt="Ground-truth ellipse overlaid on an example image"></p>
 <p align="center"><em>Ground-truth ellipse overlaid on an example image, checked before training.</em></p>
 
 ### B3.3 Preprocessing
@@ -382,7 +382,7 @@ I chose AdamW with a cosine learning-rate schedule because it trains stably at a
 
 ### B7.1 Training behaviour
 
-<p align="center"><img src="docs/images/part_b/training_curves.png" width="100%" alt="Training and validation loss and validation Dice"></p>
+<p align="center"><img src="images/part_b/training_curves.png" width="100%" alt="Training and validation loss and validation Dice"></p>
 <p align="center"><em>Training (dashed) and validation (solid) loss, and validation Dice per epoch for the three models. Stars mark the best validation Dice.</em></p>
 
 Best validation Dice was 0.979 for the baseline (epoch 77), 0.977 for attention (epoch 85) and 0.977 for the HD variant (epoch 88). Validation loss flattens after about 40 epochs and stays close to training loss, so there is no strong sign of overfitting. The early validation dips occur in all three runs and recover within about 10 epochs.
@@ -409,15 +409,15 @@ Each cell shows mean ± SD on the first line and median [IQR] on the second.
 
 All distances are in pixels (no pixel size supplied).
 
-<p align="center"><img src="docs/images/part_b/per_image_metrics.png" width="100%" alt="Per-image test metrics for the three models"></p>
+<p align="center"><img src="images/part_b/per_image_metrics.png" width="100%" alt="Per-image test metrics for the three models"></p>
 <p align="center"><em>Per-image metrics for the three models. Each dot is one test image; the diamond is the mean and the black bar is the median. Click the image to zoom.</em></p>
 
-<p align="center"><img src="docs/images/part_b/dice_histogram.png" width="80%" alt="Histogram of per-image Dice"></p>
+<p align="center"><img src="images/part_b/dice_histogram.png" width="80%" alt="Histogram of per-image Dice"></p>
 <p align="center"><em>Histogram of per-image Dice. Images left of the dashed line (0.9) are failure cases to inspect.</em></p>
 
 Dice is nearly identical across the three models (means 0.969). The share of images with Dice of at least 0.9 is 95 % (baseline), 96 % (attention) and 98 % (HD variant), so the baseline has 3 images below 0.9, attention 2 and the HD variant 1. The lowest per-image Dice is 0.871 (baseline), 0.874 (attention) and 0.858 (HD variant), all for the same image, `007_HC`.
 
-<p align="center"><img src="docs/images/part_b/roc_pr_curves.png" width="85%" alt="Pixel-level ROC and PR curves"></p>
+<p align="center"><img src="images/part_b/roc_pr_curves.png" width="85%" alt="Pixel-level ROC and PR curves"></p>
 <p align="center"><em>Pixel-level ROC and precision-recall curves for all three models, pooled over the test images.</em></p>
 
 Pooled ROC-AUC is 0.9995 (baseline), 0.9996 (attention) and 0.9996 (HD variant); pooled PR-AUC is 0.9980, 0.9981 and 0.9981. The curves are almost indistinguishable at this scale, so the pixel-level ranking of head versus background is saturated for all three models.
@@ -436,7 +436,7 @@ Paired Wilcoxon tests on the 56 test images. Only the baseline vs attention diff
 | Normalised surface distance | 0.081 | 0.13 | 0.73 |
 | Area error (absolute) | 0.18 | 0.57 | 0.83 |
 
-<p align="center"><img src="docs/images/part_b/paired_dice.png" width="55%" alt="Paired per-image Dice, baseline vs attention"></p>
+<p align="center"><img src="images/part_b/paired_dice.png" width="55%" alt="Paired per-image Dice, baseline vs attention"></p>
 <p align="center"><em>Per-image Dice for the baseline U-Net against the attention U-Net, paired by image. U-Net is higher on 29 images and attention on 27; the mean difference is -0.0003 (95 % bootstrap CI -0.0035 to +0.0023). Two images with Dice below 0.90 lie outside the zoom but are included in all numbers.</em></p>
 
 ### B7.4 Biometry (ellipse end-points and head circumference)
@@ -449,7 +449,7 @@ Paired Wilcoxon tests on the 56 test images. Only the baseline vs attention diff
 
 End-point error is the mean of the two matched end-point distances per image (56 images). The "2 px" tolerance is the `--bio_tol_mm` setting of `tools/make_report_figures.py` (the figure labels it mm, but it is in pixels because no pixel size was used).
 
-<p align="center"><img src="docs/images/part_b/biometry_errors.png" width="100%" alt="OFD, BPD and HC errors for the three models"></p>
+<p align="center"><img src="images/part_b/biometry_errors.png" width="100%" alt="OFD, BPD and HC errors for the three models"></p>
 <p align="center"><em>OFD end-point, BPD end-point and head-circumference absolute errors for the three models. Dashed line = 2 px tolerance.</em></p>
 
 Biometry errors are similar across the three models. The HD variant has a slightly lower median HC error than attention (11.6 vs 13.4 px) but a slightly higher OFD and BPD median. Almost no image falls within the 2 px tolerance for OFD (0 to 4 %), so the tolerance is strict relative to the current error.
@@ -458,12 +458,12 @@ Biometry errors are similar across the three models. The HD variant has a slight
 
 **Overlap is near saturation, but the tail and the boundary matter.** Median Dice is 0.976 to 0.978, yet 1 to 3 images per model fall below 0.9 Dice, and HD95 exceeds 20 px in 4 to 6 images per model. The same image, `007_HC`, is the worst case for all three models, so the failures are shared rather than model-specific.
 
-<p align="center"><img src="docs/images/part_b/best_and_worst_fits.png" width="85%" alt="Best and worst test images"></p>
+<p align="center"><img src="images/part_b/best_and_worst_fits.png" width="85%" alt="Best and worst test images"></p>
 <p align="center"><em>Predicted mask, fitted ellipse and biometry points on the best (left) and worst (right) test images. Green = ground truth, red = prediction, yellow dots = OFD end-points, blue dots = BPD end-points. In the worst case (`007_HC`) the predicted contour departs visibly from the skull outline on one side.</em></p>
 
 **Area bias is small, but the per-image spread is large.** The mean bias is -0.8 % (baseline), +0.1 % (attention) and 0.0 % (HD variant). The 95 % limits of agreement are about ±11 % of the ground-truth area for all three models. A Dice near 0.97 therefore hides a per-image area error of around 11 %.
 
-<p align="center"><img src="docs/images/part_b/area_agreement.png" width="100%" alt="Predicted vs ground-truth area agreement"></p>
+<p align="center"><img src="images/part_b/area_agreement.png" width="100%" alt="Predicted vs ground-truth area agreement"></p>
 <p align="center"><em>Predicted vs ground-truth area as a percentage of ground-truth area. Solid line = bias; dashed lines = 95 % limits of agreement.</em></p>
 
 **Biometry error is larger than overlap suggests.** End-points lie at the extremes of the ellipse, where a small boundary error changes the axis length most. The median OFD end-point error is about 2.9 % of the median OFD (415 px) for all three models.
@@ -520,7 +520,7 @@ Two lessons carry across both parts. First, **a headline average hides the tail*
 │   ├── tools/                     #   check_dataset, prepare_data, predict, export_model, quick_evaluate, make_report_figures, visualize_attention, check_model
 │   ├── data/  weights/            #   not tracked
 │   ├── run_pipeline.sh  requirements.txt  README.md
-├── docs/
+├── 
 │   ├── images/                    # figures used in this README
 │   └── reports/                   # the original PDF reports
 ├── requirements.txt               # installs both parts
