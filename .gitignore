@@ -7,11 +7,11 @@ venv/
 *.egg-info/
 
 # Data (large / not redistributable): keep the folder structure only
-part_*/data/**
-!part_*/data/
-!part_*/data/*/
-!part_*/data/README.md
-!part_*/data/*/.gitkeep
+# part_*/data/**
+# !part_*/data/
+# !part_*/data/*/
+# !part_*/data/README.md
+# !part_*/data/*/.gitkeep
 
 # Everything the scripts generate
 part_*/data_processed/
