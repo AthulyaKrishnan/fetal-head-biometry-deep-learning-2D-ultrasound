@@ -1,0 +1,3 @@
+# Installs both parts. To install one part only, use its own requirements.txt.
+-r part_a_landmark_detection/requirements.txt
+-r part_b_segmentation/requirements.txt

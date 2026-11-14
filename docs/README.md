@@ -1,0 +1,2 @@
+- `images/`: figures used in the top-level README (taken from the Part A and Part B reports).
+- `reports/`: put the two PDF reports here (`Athulya_Krishnan_PartA_Landmark_Detection_Report.pdf`, `Athulya_Krishnan_PartB_Segmentation_Report.pdf`).

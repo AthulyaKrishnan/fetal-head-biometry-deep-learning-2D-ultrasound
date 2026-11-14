@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+*.egg-info/
+
+# Data (large / not redistributable): keep the folder structure only
+part_*/data/**
+!part_*/data/
+!part_*/data/*/
+!part_*/data/README.md
+!part_*/data/*/.gitkeep
+
+# Everything the scripts generate
+part_*/data_processed/
+part_*/runs/
+part_*/eval_full/
+part_*/reports/
+part_*/report/
+part_*/report_figures/
+part_*/predictions/
+part_*/results/
+part_*/*.png
+
+# Model weights
+part_*/weights/**
+!part_*/weights/README.md
+!part_*/weights/.gitkeep
+*.pt
+*.pth
+*.ckpt
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
