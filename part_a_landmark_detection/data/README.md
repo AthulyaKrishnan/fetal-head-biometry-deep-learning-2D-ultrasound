@@ -1,4 +1,4 @@
-# Part A data (not tracked)
+# Part A data
 
 ```
 data/
