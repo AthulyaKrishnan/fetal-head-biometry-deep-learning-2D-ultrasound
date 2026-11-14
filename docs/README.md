@@ -32,9 +32,8 @@ This README is the full write-up. The code that produced every number is in [`pa
 3. [Part A: landmark detection](#part-a-landmark-detection)
 4. [Part B: segmentation and ellipse fitting](#part-b-segmentation-and-ellipse-fitting)
 5. [Comparing the two approaches](#comparing-the-two-approaches)
-6. [Honest assessment](#honest-assessment)
-7. [Repository guide](#repository-guide)
-8. [References](#references)
+6. [Repository guide](#repository-guide)
+7. [References](#references)
 
 ---
 
